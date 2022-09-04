@@ -165,3 +165,114 @@ const arr = [1,2,3]
 function add(data) {
     arr.push(data)
 }
+
+
+//Asayn Await ----
+
+// Personal Range Iterator:
+
+const range = {
+    start: 0,
+    stop:100,
+    step:5
+}
+
+range[Symbol.iterator] = function () {
+    let current = this.start
+    let stop = this.stop
+    let step = this.step
+
+    return {
+        next() {
+            const o = {
+                value:current,
+                done:current > stop
+            }
+            current += step //how can update this value, as like how first value show 0, second 5
+            return o
+        }
+    }
+
+}
+
+
+const rangeIterator = range[Symbol.iterator]() //------- রেঞ্জ টাকে Iterator থেকে বের করতে হবে ।
+console.log(rangeIterator.next())
+console.log(rangeIterator.next())
+console.log(rangeIterator.next())
+console.log(rangeIterator.next())
+
+// Dufault Parameters: 
+
+let greet = (name = 'Shohel Rana Shanto', msg) => {
+    console.log(`${name}! ${msg}`)
+}
+
+greet('','Good Morning') // how can i write first argument from this situation
+
+// reduce
+function sum(...rest) {
+    return rest.reduce((a,b) => a+b) //how can calculated
+  }
+  
+  console.log(sum(1,2,3,4,5))
+
+//   Iterator
+
+let obj = {
+    start: 1,
+    end:5,
+
+    [Symbol.iterator] : function* () {
+            let currentValue = this.start
+            while(currentValue <= this.end){
+                yield currentValue++
+            }
+    }
+}
+
+let result = obj[Symbol.iterator]() //Why can i use this double
+
+console.log(result.next())
+console.log(result.next())
+console.log(result.next())
+console.log(result.next())
+console.log(result.next())
+console.log(result.next())
+console.log(result.next())
+console.log(result.next())
+console.log(result.next())
+
+
+// for await 
+
+// iterable 
+let asyncIterqable = {
+    [Symbol.asyncIterator]() { //why here asyncIterator method, why not Iterator
+        let i  = 0 
+        return{
+            next() {
+                if(i < 5) {
+                    return Promise.resolve({
+                        value:i++,
+                        done:false
+                    })
+                }else{
+                    return Promise.resolve({
+                        value:undefined,
+                        done:true
+                    })
+                }
+            }
+        }
+    }
+}
+
+// Iterator
+let iterate = asyncIterqable[Symbol.asyncIterator](); //why here asyncIterator method, why not Iterator
+
+(async function () {
+       for await(let v of asyncIterqable){ 
+        console.log(v)
+       }
+})()
