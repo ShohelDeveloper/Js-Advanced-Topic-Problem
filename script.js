@@ -283,3 +283,36 @@ let p2 = new Promise((resolve,reject) => {
     setTimeout(resolve, 3000, 'Two') //how resolve work.
 })
 console.log(p2)
+
+
+// Async Iterator and For Await of Loop:
+// iterable
+let asyncIterqable = {
+    [Symbol.asyncIterator]() { //why cani  use asyncIterator, why not iterator
+        let i  = 0 
+        return{
+            next() {
+                if(i < 5) {
+                    return Promise.resolve({
+                        value:i++,
+                        done:false
+                    })
+                }else{
+                    return Promise.resolve({
+                        value:undefined,
+                        done:true
+                    })
+                }
+            }
+        }
+    }
+}
+ 
+// Iterator
+let iterate = asyncIterqable[Symbol.asyncIterator]();
+ 
+(async function () {
+       for await(let v of asyncIterqable){
+        console.log(v)
+       }
+})()
