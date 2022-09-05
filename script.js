@@ -276,3 +276,10 @@ let iterate = asyncIterqable[Symbol.asyncIterator](); //why here asyncIterator m
         console.log(v)
        }
 })()
+
+//promise -- resolve
+
+let p2 = new Promise((resolve,reject) => {
+    setTimeout(resolve, 3000, 'Two') //how resolve work.
+})
+console.log(p2)
